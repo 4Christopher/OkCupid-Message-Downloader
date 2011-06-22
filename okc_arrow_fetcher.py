@@ -160,11 +160,14 @@ def main():
                     help="the file to which you want to write the data")
     (options, args) = parser.parse_args()
     if not options.username:
-        print "Please specify your OkCupid username with either '-u' or '--username'"
+        options.username = "[put your username here]"
+        # print "Please specify your OkCupid username with either '-u' or '--username'"
     if not options.password:
-        print "Please specify your OkCupid password with either '-p' or '--password'"
+        options.password = "[put your password here]"
+        # print "Please specify your OkCupid password with either '-p' or '--password'"
     if not options.filename:
-        print "Please specify the destination file with either '-f' or '--filename'"
+        options.filename = "[put the file name here]"
+        # print "Please specify the destination file with either '-f' or '--filename'"
     if options.username and options.password and options.filename:
         arrow_fetcher = ArrowFetcher(options.username, options.password)
         arrow_fetcher.queue_threads()
