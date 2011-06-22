@@ -166,7 +166,7 @@ def main():
         options.password = "[put your password here]"
         # print "Please specify your OkCupid password with either '-p' or '--password'"
     if not options.filename:
-        options.filename = "[put the file name here]"
+        options.filename = "[put the full path to the destination file here]"
         # print "Please specify the destination file with either '-f' or '--filename'"
     if options.username and options.password and options.filename:
         arrow_fetcher = ArrowFetcher(options.username, options.password)
