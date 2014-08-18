@@ -22,11 +22,17 @@ class Message:
         self.subject = subject
         self.content = content
         self.thunderbird = thunderbird
+        self._begin_of_message_as_subject = True
 
     def __str__(self):
         if self.thunderbird:
             msglength=len(self.content)
             subject="OKC Message, length = " + str(msglength).zfill(4)  # leading zeros for message length
+            if not self.subject:
+                if self._begin_of_message_as_subject:
+                    subject = self.content.split('\n', 1)[0][:42]
+            else:
+                subject = self.subject
             return """
 From - %s
 From: %s
@@ -168,15 +174,16 @@ class ArrowFetcher:
                 subject = subject.replace(unicode(find), unicode(replace))
         except AttributeError:
             subject = unicode('')
+
         try:
             other_user = soup.find('input', {'name': 'buddyname'}).get('value')
-
         except AttributeError:
             try:
                 # messages from OkCupid itself are a special case
                 other_user = soup.find('ul', {'id': 'thread'}).find('div', 'signature').contents[0].partition('Message from ')[2]
             except AttributeError:
                 other_user = ''
+
         for message in soup.find('ul', {'id': 'thread'}).findAll('li'):
             message_type = re.sub(r'_.*$', '', message.get('id', 'unknown'))
             body_contents = message.find('div', 'message_body')
